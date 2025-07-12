@@ -1,0 +1,35 @@
+name: ai-license-scan
+
+on:
+  pull_request:              # PR が開かれた／更新されたときだけ実行
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+  actions: read
+
+jobs:
+  scanoss-code-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ① ソース取得
+      - uses: actions/checkout@v4
+
+      # ② SCANOSS Code Scan ─ GPL/LGPL/AGPL を検出したら exit 1
+      - name: Run SCANOSS Code Scan
+        id: scanoss
+        uses: scanoss/gha-code-scan@v1          # ← 公式リポ／タグ
+        with:
+          policies: copyleft                    # Copyleft(GPL/LGPL/AGPL) を NG に
+          violations.fail: true                 # 違反があればジョブを失敗に
+          output.filepath: scanoss.sarif        # SARIF 出力
+          sarif.upload: true                    # 自動で Code-Scanning へアップロード
+          # dependencies.enabled: false         # 依存解析は不要ならコメントアウト
+
+      # （任意）CIログでコマンド & 結果パスを確認したい場合
+      - name: Show scan command + result path
+        run: |
+          echo "::notice title=Scan Command::${{ steps.scanoss.outputs.stdout-scan-command }}"
+          echo "::notice title=Result File::${{ steps.scanoss.outputs.result-filepath }}"
