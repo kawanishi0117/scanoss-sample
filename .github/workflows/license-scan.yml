@@ -23,9 +23,8 @@ jobs:
         uses: scanoss/gha-code-scan@v1          # ← 公式リポ／タグ
         with:
           policies: copyleft                    # Copyleft(GPL/LGPL/AGPL) を NG に
-          violations.fail: true                 # 違反があればジョブを失敗に
+          policies.halt_on_failure: true        # 違反があればジョブを失敗に
           output.filepath: scanoss.sarif        # SARIF 出力
-          sarif.upload: true                    # 自動で Code-Scanning へアップロード
           # dependencies.enabled: false         # 依存解析は不要ならコメントアウト
 
       # （任意）CIログでコマンド & 結果パスを確認したい場合
