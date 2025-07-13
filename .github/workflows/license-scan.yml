@@ -17,18 +17,48 @@ jobs:
       # ① ソース取得
       - uses: actions/checkout@v4
 
-      # ② SCANOSS Code Scan ─ GPL/LGPL/AGPL を検出したら exit 1
+      # ② SCANOSS Code Scan - 固定化されたコミットSHAを推奨
       - name: Run SCANOSS Code Scan
         id: scanoss
-        uses: scanoss/gha-code-scan@v1          # ← 公式リポ／タグ
+        uses: scanoss/gha-code-scan@v1    # ← 具体的なバージョンタグを使用
+        # 代替案: uses: scanoss/gha-code-scan@<commit-sha>  # ← より安全なコミットSHA固定
         with:
           policies: copyleft                    # Copyleft(GPL/LGPL/AGPL) を NG に
           policies.halt_on_failure: true        # 違反があればジョブを失敗に
           output.filepath: scanoss.sarif        # SARIF 出力
           # dependencies.enabled: false         # 依存解析は不要ならコメントアウト
+          
+      # ③ 結果の検証 - 2025年のベストプラクティス
+      - name: Validate scan results
+        run: |
+          if [ -f scanoss.sarif ]; then
+            echo "✅ SARIF file generated successfully"
+            # SARIFファイルの基本的な検証
+            jq '.runs[0].results | length' scanoss.sarif || echo "No results found"
+          else
+            echo "❌ SARIF file not found"
+            exit 1
+          fi
 
-      # （任意）CIログでコマンド & 結果パスを確認したい場合
+      # ④ セキュリティ強化されたログ出力
       - name: Show scan command + result path
         run: |
           echo "::notice title=Scan Command::${{ steps.scanoss.outputs.stdout-scan-command }}"
           echo "::notice title=Result File::${{ steps.scanoss.outputs.result-filepath }}"
+          
+      # ⑤ アーティファクトの保存 - 監査証跡のため
+      - name: Upload SARIF results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scanoss-sarif-results
+          path: scanoss.sarif
+          retention-days: 30
+
+      # ⑥ GitHub Advanced Security統合（オプション）
+      - name: Upload SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: scanoss.sarif
+          category: license-scan
