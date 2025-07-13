@@ -1,8 +1,6 @@
-# .github/workflows/scanoss-deep.yml
 name: Deep OSS Scan (ScanCode + SCANOSS)
 
 on: [pull_request, push]
-
 permissions:
   contents: read
   pull-requests: write
@@ -10,47 +8,38 @@ permissions:
   actions: read
 
 jobs:
-# ────────────────────────────────────────────────
-# 1) ScanCode.io ── ライセンス全文付き SBOM 生成
-# ────────────────────────────────────────────────
+# ── 1) ScanCode.io ──
   scancode:
     runs-on: ubuntu-latest
     env:
-      # ScanCode-Toolkit にそのまま渡る CLI オプション
-      # --license       : ライセンス検出を有効化
-      # --license-text  : 検出箇所の全文をレポートに含める
-      SCANCODE_DEFAULT_OPTIONS: "--license --license-text"  # ←★ココ
+      SCANCODE_DEFAULT_OPTIONS: "--license --license-text"
     steps:
       - uses: actions/checkout@v4
         with: { path: scancode-inputs }
 
-      # ライセンス全文 + SPDX/CycloneDX/JSON を一気出し
       - id: sc
-        uses: aboutcode-org/scancode-action@beta           # :contentReference[oaicite:0]{index=0}
+        uses: aboutcode-org/scancode-action@beta
         with:
           pipelines: scan_codebase
-          output-formats: "json spdx cyclonedx"
-          outputs-archive-name: scancode-outputs
+          output-formats: json spdx cyclonedx
+          outputs-archive-name: scancode-outputs   # アーティファクト名
 
-# ────────────────────────────────────────────────
-# 2) SCANOSS ── スニペット照合＋ポリシー判定
-# ────────────────────────────────────────────────
+# ── 2) SCANOSS ──
   scanoss:
     needs: scancode
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
-        with: { name: scancode-outputs }     # ← 上でアップロードした SBOM 一式
+        with:
+          name: scancode-outputs        # ← ここは上と合わせる
+          path: scancode-outputs        # 展開先
 
       - name: Run SCANOSS full-scan
         id: oss
-        uses: scanoss/code-scan-action@v1                   # :contentReference[oaicite:1]{index=1}
+        uses: scanoss/code-scan-action@v1
         with:
-          # 依存解析は SBOM に含まれているので不要
-          dependencies.enabled: false
-          # ファイル／行レベルのコピー検出は続行
           scanFiles: true
           skipSnippets: false
-          # ScanCode が吐いた JSON（ライセンス全文入り）を読み込ませる
-          settingsFilepath: "scancode_codebase.json"  # ファイル名は出力先に合わせて要確認
+          dependencies.enabled: false  # 依存解析は二重実行しない
           policies: copyleft, undeclared
+          # settingsFilepath を **渡さない** ← 重要
