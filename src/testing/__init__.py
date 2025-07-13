@@ -1,0 +1,1 @@
+# Testing modules with GPL license patterns

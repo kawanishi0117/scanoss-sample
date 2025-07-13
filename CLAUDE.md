@@ -1,155 +1,155 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+このファイルは、このリポジトリのコードを扱う際にClaude Code (claude.ai/code) にガイダンスを提供します。
 
-## Project Overview
+## プロジェクト概要
 
-This is a SCANOSS license scanning test repository containing intentionally mixed-license Python code designed to test comprehensive license detection capabilities. The project includes:
+これは、包括的なライセンス検出機能をテストするために意図的に混合ライセンスのPythonコードを含むSCANOSSライセンススキャンテストリポジトリです。プロジェクトには以下が含まれます：
 
-- **Permissive licensed code** (MIT, BSD-3-Clause, Apache-2.0, ISC, Unlicense, WTFPL, Boost, zlib) 
-- **Copyleft licensed code** (GPL-2.0, GPL-3.0, LGPL-2.1, AGPL-3.0) for testing detection
-- **Weak copyleft licenses** (MPL-2.0, EPL-2.0) for compatibility testing
-- **Creative Commons licenses** (CC-BY-4.0, CC-BY-SA-4.0, CC-BY-NC-4.0) for content licensing
-- **Proprietary/Commercial licenses** for enterprise scanning scenarios
-- **Mixed license conflicts** for complex detection testing
-- **Web scraping and data processing utilities**
-- **Automated license scanning via GitHub Actions**
+- **パーミッシブライセンスコード** (MIT, BSD-3-Clause, Apache-2.0, ISC, Unlicense, WTFPL, Boost, zlib) 
+- **コピーレフトライセンスコード** (GPL-2.0, GPL-3.0, LGPL-2.1, AGPL-3.0) 検出テスト用
+- **弱いコピーレフトライセンス** (MPL-2.0, EPL-2.0) 互換性テスト用
+- **クリエイティブ・コモンズライセンス** (CC-BY-4.0, CC-BY-SA-4.0, CC-BY-NC-4.0) コンテンツライセンス用
+- **プロプライエタリ/商用ライセンス** エンタープライズスキャンシナリオ用
+- **混合ライセンス競合** 複雑な検出テスト用
+- **Webスクレイピングとデータ処理ユーティリティ**
+- **GitHub Actions経由の自動ライセンススキャン**
 
-## Commands and Development
+## コマンドと開発
 
-### Running Tests
+### テストの実行
 ```bash
-python test.py  # Basic test runner (currently empty)
-python license_test_runner.py  # Comprehensive license detection test runner
+python test.py  # 基本テストランナー（現在は空）
+python license_test_runner.py  # 包括的ライセンス検出テストランナー
 ```
 
-### License Scanning
-The repository uses SCANOSS for automated license detection:
+### ライセンススキャン
+リポジトリは自動ライセンス検出にSCANOSSを使用します：
 ```bash
-# License scanning runs automatically on PRs via GitHub Actions
-# Manual scanning can be done with SCANOSS CLI tools
+# ライセンススキャンはGitHub Actions経由でPRで自動実行されます
+# 手動スキャンはSCANOSS CLIツールで実行できます
 ```
 
-### Python Environment
-This is a pure Python project with standard library dependencies plus:
-- `click` (MIT) - CLI configuration
-- `pandas` (BSD-3-Clause) - Data processing  
-- `beautifulsoup4` (MIT) - HTML parsing
-- `requests` (Apache-2.0) - HTTP client
-- `pyyaml` (MIT) - Configuration files
+### Python環境
+これは標準ライブラリ依存関係を持つ純粋なPythonプロジェクトに加えて：
+- `click` (MIT) - CLI設定
+- `pandas` (BSD-3-Clause) - データ処理  
+- `beautifulsoup4` (MIT) - HTML解析
+- `requests` (Apache-2.0) - HTTPクライアント
+- `pyyaml` (MIT) - 設定ファイル
 
-## Architecture
+## アーキテクチャ
 
-### Module Structure
+### モジュール構造
 ```
 src/
-├── config/              # Configuration management
-│   ├── settings.py      # CLI and YAML config using click (MIT)
-│   └── mpl2_config.py   # Mozilla Public License 2.0 configuration
-├── data/               # Data processing utilities
-│   ├── processor.py    # Pandas-based data processing (BSD-3-Clause)
-│   ├── utils.py        # LGPL-2.1 utilities (intentional for testing)
-│   ├── apache_utils.py # Apache-2.0 licensed data utilities
-│   ├── agpl3_database.py # AGPL-3.0 database management system
-│   ├── epl2_analytics.py # Eclipse Public License 2.0 analytics
-│   └── cc_content.py   # Creative Commons licensed content processing
-├── scraper/            # Web scraping components
-│   ├── parser.py       # BeautifulSoup HTML parsing (MIT)
-│   ├── web_client.py   # GPL-3.0 HTTP client (intentional for testing)
-│   ├── gpl2_tools.py   # GPL-2.0 network scanning tools
-│   └── proprietary_tools.py # Proprietary/Commercial licensed tools
-├── mixed_licenses.py   # Mixed license patterns for complex testing
-└── license_test_runner.py # Comprehensive license detection test runner
+├── config/              # 設定管理
+│   ├── settings.py      # clickを使用したCLIとYAML設定 (MIT)
+│   └── mpl2_config.py   # Mozilla Public License 2.0設定
+├── data/               # データ処理ユーティリティ
+│   ├── processor.py    # Pandasベースのデータ処理 (BSD-3-Clause)
+│   ├── utils.py        # LGPL-2.1ユーティリティ（テスト用意図的）
+│   ├── apache_utils.py # Apache-2.0ライセンスデータユーティリティ
+│   ├── agpl3_database.py # AGPL-3.0データベース管理システム
+│   ├── epl2_analytics.py # Eclipse Public License 2.0アナリティクス
+│   └── cc_content.py   # クリエイティブ・コモンズライセンスコンテンツ処理
+├── scraper/            # Webスクレイピングコンポーネント
+│   ├── parser.py       # BeautifulSoup HTML解析 (MIT)
+│   ├── web_client.py   # GPL-3.0 HTTPクライアント（テスト用意図的）
+│   ├── gpl2_tools.py   # GPL-2.0ネットワークスキャンツール
+│   └── proprietary_tools.py # プロプライエタリ/商用ライセンスツール
+├── mixed_licenses.py   # 複雑なテスト用混合ライセンスパターン
+└── license_test_runner.py # 包括的ライセンス検出テストランナー
 ```
 
-### License Testing Design
-The codebase intentionally contains diverse licenses to test comprehensive SCANOSS detection:
+### ライセンステスト設計
+コードベースは包括的なSCANOSS検出をテストするため意図的に多様なライセンスを含んでいます：
 
-**Copyleft Licenses (Should Trigger Policy Violations):**
-- **gpl2_tools.py**: GPL-2.0 network scanning utilities with full GPL headers
-- **web_client.py**: GPL-3.0 HTTP client with wget-like functionality
-- **utils.py**: LGPL-2.1 data utilities with explicit LGPL license headers
-- **agpl3_database.py**: AGPL-3.0 database system with network copyleft requirements
+**コピーレフトライセンス（ポリシー違反を引き起こすべき）：**
+- **gpl2_tools.py**: 完全なGPLヘッダー付きGPL-2.0ネットワークスキャンユーティリティ
+- **web_client.py**: wget類似機能を持つGPL-3.0 HTTPクライアント
+- **utils.py**: 明示的なLGPLライセンスヘッダー付きLGPL-2.1データユーティリティ
+- **agpl3_database.py**: ネットワークコピーレフト要件を持つAGPL-3.0データベースシステム
 
-**Permissive Licenses:**
-- **apache_utils.py**: Apache-2.0 data processing with full Apache license headers
-- **Other modules**: MIT, BSD-3-Clause licenses for baseline compatibility
+**パーミッシブライセンス：**
+- **apache_utils.py**: 完全なApacheライセンスヘッダー付きApache-2.0データ処理
+- **その他のモジュール**: ベースライン互換性のためのMIT、BSD-3-Clauseライセンス
 
-**Weak Copyleft:**
-- **mpl2_config.py**: Mozilla Public License 2.0 configuration management
-- **epl2_analytics.py**: Eclipse Public License 2.0 analytics engine
+**弱いコピーレフト：**
+- **mpl2_config.py**: Mozilla Public License 2.0設定管理
+- **epl2_analytics.py**: Eclipse Public License 2.0アナリティクスエンジン
 
-**Creative Commons:**
-- **cc_content.py**: Multiple CC variants (BY, BY-SA, BY-NC) for content licensing
+**クリエイティブ・コモンズ：**
+- **cc_content.py**: コンテンツライセンシング用の複数CCバリエーション（BY、BY-SA、BY-NC）
 
-**Proprietary/Commercial:**
-- **proprietary_tools.py**: Simulated proprietary licenses for enterprise testing
+**プロプライエタリ/商用：**
+- **proprietary_tools.py**: エンタープライズテスト用のシミュレートされたプロプライエタリライセンス
 
-**Mixed License Conflicts:**
-- **mixed_licenses.py**: Multiple conflicting licenses in one file for complex scenarios
+**混合ライセンス競合：**
+- **mixed_licenses.py**: 複雑なシナリオ用の単一ファイル内の複数競合ライセンス
 
-### Key Components
+### 主要コンポーネント
 
-1. **Configuration Management**:
-   - `src/config/settings.py`: Click-based CLI configuration (MIT)
-   - `src/config/mpl2_config.py`: Mozilla-style configuration system (MPL-2.0)
+1. **設定管理**:
+   - `src/config/settings.py`: ClickベースCLI設定 (MIT)
+   - `src/config/mpl2_config.py`: Mozillaスタイル設定システム (MPL-2.0)
 
-2. **Data Processing Systems**:
-   - `src/data/processor.py`: Pandas DataFrame operations (BSD-3-Clause)
-   - `src/data/apache_utils.py`: Apache Commons-style utilities (Apache-2.0)
-   - `src/data/agpl3_database.py`: MongoDB-style database system (AGPL-3.0)
-   - `src/data/epl2_analytics.py`: Eclipse-style analytics engine (EPL-2.0)
+2. **データ処理システム**:
+   - `src/data/processor.py`: Pandas DataFrame操作 (BSD-3-Clause)
+   - `src/data/apache_utils.py`: Apache Commonsスタイルユーティリティ (Apache-2.0)
+   - `src/data/agpl3_database.py`: MongoDBスタイルデータベースシステム (AGPL-3.0)
+   - `src/data/epl2_analytics.py`: Eclipseスタイルアナリティクスエンジン (EPL-2.0)
 
-3. **Web Scraping & Network Tools**:
-   - `src/scraper/parser.py`: BeautifulSoup-based HTML parsing (MIT)
-   - `src/scraper/web_client.py`: GPL wget-like downloader (GPL-3.0)
-   - `src/scraper/gpl2_tools.py`: nmap-style network scanner (GPL-2.0)
-   - `src/scraper/proprietary_tools.py`: Enterprise encryption tools (Proprietary)
+3. **Webスクレイピング＆ネットワークツール**:
+   - `src/scraper/parser.py`: BeautifulSoupベースHTML解析 (MIT)
+   - `src/scraper/web_client.py`: GPL wget類似ダウンローダー (GPL-3.0)
+   - `src/scraper/gpl2_tools.py`: nmapスタイルネットワークスキャナー (GPL-2.0)
+   - `src/scraper/proprietary_tools.py`: エンタープライズ暗号化ツール (プロプライエタリ)
 
-4. **License Testing Framework**:
-   - `license_test_runner.py`: Comprehensive license detection testing
-   - `src/mixed_licenses.py`: Mixed license conflict scenarios
+4. **ライセンステストフレームワーク**:
+   - `license_test_runner.py`: 包括的ライセンス検出テスト
+   - `src/mixed_licenses.py`: 混合ライセンス競合シナリオ
 
-## GitHub Actions Integration
+## GitHub Actions連携
 
-The repository includes automated license scanning:
-- **Workflow**: `.github/workflows/license-scan.yml`
-- **Trigger**: Pull requests only
-- **Policy**: Detects copyleft licenses (GPL/LGPL/AGPL)
-- **Action**: Uses `scanoss/gha-code-scan@v1` with `policies: copyleft`
-- **Behavior**: Fails CI when copyleft licenses detected (`policies.halt_on_failure: true`)
+リポジトリには自動ライセンススキャンが含まれています：
+- **ワークフロー**: `.github/workflows/license-scan.yml`
+- **トリガー**: プルリクエストのみ
+- **ポリシー**: コピーレフトライセンスを検出 (GPL/LGPL/AGPL)
+- **アクション**: `scanoss/gha-code-scan@v1`を`policies: copyleft`で使用
+- **動作**: コピーレフトライセンス検出時にCIが失敗 (`policies.halt_on_failure: true`)
 
-## Important Notes
+## 重要な注意事項
 
-### License Compliance
-- This is a **test repository** with intentionally diverse and conflicting licenses
-- **Copyleft licenses** (GPL-2.0, GPL-3.0, LGPL-2.1, AGPL-3.0) should trigger SCANOSS policy violations
-- **Mixed license conflicts** in `mixed_licenses.py` create complex detection scenarios
-- **Proprietary code** simulates enterprise scanning challenges
-- **Creative Commons variants** test documentation and content licensing
-- Do not use this codebase in production without comprehensive license review
-- All license headers are intentionally explicit for testing purposes
+### ライセンスコンプライアンス
+- これは意図的に多様で競合するライセンスを持つ**テストリポジトリ**です
+- **コピーレフトライセンス** (GPL-2.0, GPL-3.0, LGPL-2.1, AGPL-3.0)はSCANOSSポリシー違反を引き起こすはずです
+- `mixed_licenses.py`の**混合ライセンス競合**は複雑な検出シナリオを作成します
+- **プロプライエタリコード**はエンタープライズスキャンチャレンジをシミュレートします
+- **クリエイティブ・コモンズバリエーション**はドキュメントとコンテンツライセンシングをテストします
+- 包括的なライセンスレビューなしにこのコードベースを本番環境で使用しないでください
+- すべてのライセンスヘッダーはテスト目的で意図的に明示的です
 
-### Development Guidelines
-- Maintain license header comments when modifying test files
-- Keep the intentional license mix for testing purposes
-- Use Python standard library when possible
-- Follow existing code patterns for each module
-- Test license detection after making changes
+### 開発ガイドライン
+- テストファイルを修正する際はライセンスヘッダーコメントを維持してください
+- テスト目的の意図的なライセンスミックスを保持してください
+- 可能な限りPython標準ライブラリを使用してください
+- 各モジュールの既存コードパターンに従ってください
+- 変更後にライセンス検出をテストしてください
 
-### SCANOSS Testing
-- **PR submissions** will trigger comprehensive license scanning
-- **Expected behavior**: CI should fail due to copyleft license detection (GPL/LGPL/AGPL)
-- **SARIF output** saved to `scanoss.sarif` for detailed review
-- **Test runner**: Use `python license_test_runner.py` for local testing
-- **File targets**: Multiple files with different license types for comprehensive coverage
-- **Policy testing**: Verify halt-on-failure behavior with copyleft detection
-- **Mixed license scenarios**: Test complex license conflict detection in `mixed_licenses.py`
+### SCANOSSテスト
+- **PR提出**で包括的なライセンススキャンがトリガーされます
+- **期待される動作**: コピーレフトライセンス検出 (GPL/LGPL/AGPL) によりCIが失敗するはずです
+- **SARIF出力**が`scanoss.sarif`に保存され、詳細レビューが可能です
+- **テストランナー**: ローカルテストには`python license_test_runner.py`を使用してください
+- **ファイルターゲット**: 包括的カバレッジのため異なるライセンスタイプの複数ファイル
+- **ポリシーテスト**: コピーレフト検出時のhalt-on-failure動作を検証
+- **混合ライセンシナリオ**: `mixed_licenses.py`で複雑なライセンス競合検出をテスト
 
-### Expected SCANOSS Detections
-The following files should trigger license violations:
+### 期待されるSCANOSS検出
+以下のファイルがライセンス違反を引き起こすはずです：
 - `src/scraper/gpl2_tools.py` (GPL-2.0)
 - `src/scraper/web_client.py` (GPL-3.0)
 - `src/data/utils.py` (LGPL-2.1)
 - `src/data/agpl3_database.py` (AGPL-3.0)
-- `src/mixed_licenses.py` (Multiple conflicting licenses)
+- `src/mixed_licenses.py` (複数の競合ライセンス)

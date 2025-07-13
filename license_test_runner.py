@@ -31,9 +31,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 def discover_license_test_modules() -> Dict[str, Any]:
     """
-    Discover all modules with various license types for testing.
+    新しく追加されたモジュールを含む、すべてのライセンステストモジュールを発見
     
-    This function scans the codebase for license testing modules.
+    この関数はライセンステスト用のコードベースをスキャンします。
     """
     test_modules = {
         'apache_2_0': {
@@ -96,6 +96,52 @@ def discover_license_test_modules() -> Dict[str, Any]:
             'expected_licenses': ['GPL-3.0'],
             'license_type': 'copyleft',
             'commercial_use': True
+        },
+        # 新しく追加されたモジュール
+        'dual_license_crypto': {
+            'module': 'src.security.dual_license_crypto',
+            'expected_licenses': ['GPL-3.0', 'Commercial', 'MIT', 'Apache-2.0', 'BSD-3-Clause'],
+            'license_type': 'dual_license',
+            'commercial_use': 'conditional'
+        },
+        'international_licenses': {
+            'module': 'src.international.global_licenses',
+            'expected_licenses': ['EUPL-1.2', 'Japanese-Custom', 'Open-Government-Canada', 'AFL-3.0', 'CC0-1.0', 'Buddhist'],
+            'license_type': 'international',
+            'commercial_use': 'varies'
+        },
+        'license_violations': {
+            'module': 'src.violations.license_violations',
+            'expected_licenses': ['GPL-3.0-VIOLATION', 'MIT-COPYRIGHT-VIOLATION', 'PATENT-INFRINGEMENT', 'AGPL-NETWORK-VIOLATION'],
+            'license_type': 'violations',
+            'commercial_use': 'illegal'
+        },
+        'complex_dependencies': {
+            'module': 'src.advanced.complex_dependencies',
+            'expected_licenses': ['MIT', 'Apache-2.0', 'BSD-3-Clause', 'GPL-2.0', 'GPL-3.0', 'LGPL-2.1', 'AGPL-3.0', 'MPL-2.0', 'Proprietary'],
+            'license_type': 'dependency_tree',
+            'commercial_use': 'incompatible'
+        },
+        'enhanced_settings': {
+            'module': 'src.config.settings',
+            'expected_licenses': ['MIT', 'BSD-3-Clause', 'PSFL', 'Apache-2.0'],
+            'license_type': 'multi_dependency',
+            'commercial_use': True
+        },
+        # Pulp-Smashインスパイアモジュール
+        'pulp_inspired_gpl': {
+            'module': 'src.testing.pulp_inspired_gpl',
+            'expected_licenses': ['GPL-3.0'],
+            'license_type': 'copyleft',
+            'commercial_use': True,
+            'inspired_by': 'pulp-smash project patterns'
+        },
+        'pulp_patterns_gpl': {
+            'module': 'src.testing.pulp_patterns_gpl',
+            'expected_licenses': ['GPL-3.0'],
+            'license_type': 'copyleft',
+            'commercial_use': True,
+            'inspired_by': 'pulp-smash architectural patterns'
         }
     }
     
@@ -370,7 +416,11 @@ def main():
     print(f"   - Review SARIF output for license detections")
     print(f"   - Verify copyleft licenses trigger policy violations")
     
-    return test_results
+    return {
+        'basic_results': test_results,
+        'advanced_results': advanced_results,
+        'combined_analysis': combined_results
+    }
 
 if __name__ == "__main__":
     main()
